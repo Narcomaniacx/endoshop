@@ -23,7 +23,7 @@ from reportlab.platypus import Table, TableStyle
 
 
 # =============================================================================
-# COLORES — logo y web EndoShop
+# COLORES
 # =============================================================================
 class C:
     TEAL        = colors.HexColor("#1A9BAF")
@@ -130,38 +130,32 @@ def draw_footer(c):
 def draw_cover(c, logo_path, year="2025"):
     w, h = PAGE_W, PAGE_H
 
-    # Mitad superior teal
     c.setFillColor(C.TEAL)
     c.rect(0, h / 2, w, h / 2, fill=1, stroke=0)
 
-    # Mitad inferior blanca
     c.setFillColor(C.WHITE)
     c.rect(0, 0, w, h / 2, fill=1, stroke=0)
 
-    # Circulo decorativo naranja translucido
     c.saveState()
     c.setFillColor(C.ORANGE)
     c.setFillAlpha(0.18)
     c.circle(w * 0.88, h * 0.82, 90, fill=1, stroke=0)
     c.restoreState()
 
-    # Circulo decorativo teal claro
     c.saveState()
     c.setFillColor(C.TEAL_LIGHT)
     c.setFillAlpha(0.7)
     c.circle(w * 0.1, h * 0.18, 60, fill=1, stroke=0)
     c.restoreState()
 
-    # Logo centrado en el quiebre mitad/mitad
     logo_w, logo_h = 200, 84
     logo_x = (w - logo_w) / 2
-    logo_y = h / 2 - logo_h / 2
+    logo_y = h / 2 - logo_h - 20
     if logo_path and os.path.exists(logo_path):
         c.drawImage(logo_path, logo_x, logo_y,
                     width=logo_w, height=logo_h,
                     preserveAspectRatio=True, mask="auto")
 
-    # Titulo (zona teal)
     c.setFillColor(C.WHITE)
     c.setFont("Helvetica-Bold", 22)
     c.drawCentredString(w / 2, h * 0.72, "CATALOGO DE PRODUCTOS")
@@ -169,27 +163,23 @@ def draw_cover(c, logo_path, year="2025"):
     c.setFont("Helvetica", 12)
     c.drawCentredString(w / 2, h * 0.72 - 22, "Instrumental Endodontico de Precision")
 
-    # Linea naranja
     c.setStrokeColor(C.ORANGE)
     c.setLineWidth(2.5)
     c.line(w * 0.28, h * 0.72 - 34, w * 0.72, h * 0.72 - 34)
 
-    # Edicion y ciudad (zona blanca)
     c.setFillColor(C.GRAY_600)
     c.setFont("Helvetica", 9.5)
-    c.drawCentredString(w / 2, h / 2 - logo_h / 2 - 28, f"Edicion {year}  |  Guadalajara, Jalisco")
+    c.drawCentredString(w / 2, logo_y - 28, f"Edicion {2026}  |  Guadalajara, Jalisco")
 
-    # Badge
     badge_w, badge_h = 196, 22
     badge_x = (w - badge_w) / 2
-    badge_y = h / 2 - logo_h / 2 - 62
+    badge_y = logo_y - 62
     c.setFillColor(colors.HexColor("#fef3e2"))
     c.roundRect(badge_x, badge_y, badge_w, badge_h, 11, fill=1, stroke=0)
     c.setFillColor(C.ORANGE)
     c.setFont("Helvetica-Bold", 7.5)
     c.drawCentredString(w / 2, badge_y + 7, "DISTRIBUCION ESPECIALIZADA — ENDODONCIA")
 
-    # Barra footer
     draw_footer(c)
     c.showPage()
 
@@ -200,15 +190,12 @@ def draw_cover(c, logo_path, year="2025"):
 def draw_index(c, grupos, logo_path):
     w, h = PAGE_W, PAGE_H
 
-    # Fondo blanco
     c.setFillColor(C.WHITE)
     c.rect(0, 0, w, h, fill=1, stroke=0)
 
-    # Banda lateral teal
     c.setFillColor(C.TEAL)
     c.rect(0, 0, SIDEBAR_W, h, fill=1, stroke=0)
 
-    # Texto vertical en banda
     c.saveState()
     c.setFillColor(C.WHITE)
     c.setFont("Helvetica-Bold", 8)
@@ -217,13 +204,11 @@ def draw_index(c, grupos, logo_path):
     c.drawCentredString(0, 0, "CONTENIDO")
     c.restoreState()
 
-    # Logo en encabezado
     if logo_path and os.path.exists(logo_path):
         c.drawImage(logo_path, w - 112, h - 50,
                     width=102, height=38,
                     preserveAspectRatio=True, mask="auto")
 
-    # Titulo
     c.setFillColor(C.GRAY_800)
     c.setFont("Helvetica-Bold", 18)
     c.drawString(CONTENT_X, h - 50, "Indice de Productos")
@@ -231,7 +216,6 @@ def draw_index(c, grupos, logo_path):
     c.setLineWidth(2)
     c.line(CONTENT_X, h - 57, CONTENT_X + CONTENT_W, h - 57)
 
-    # Agrupar por categoria
     cat_order = ["limas", "complementos", "equipos"]
     cat_sistemas = OrderedDict((cat, []) for cat in cat_order)
     for sistema, prods in grupos.items():
@@ -248,7 +232,6 @@ def draw_index(c, grupos, logo_path):
         if not sistemas:
             continue
 
-        # Cabecera de categoria
         c.setFillColor(C.TEAL_LIGHT)
         c.roundRect(CONTENT_X, y - 14, CONTENT_W, 20, 4, fill=1, stroke=0)
         c.setFillColor(C.TEAL_DARK)
@@ -260,17 +243,14 @@ def draw_index(c, grupos, logo_path):
             if y < FOOTER_H + 16:
                 break
 
-            # Nombre
             c.setFillColor(C.GRAY_800)
             c.setFont("Helvetica", 8.5)
             c.drawString(CONTENT_X + 8, y, sistema)
 
-            # Numero de pagina
             c.setFont("Helvetica-Bold", 8.5)
             c.setFillColor(C.TEAL)
             c.drawRightString(CONTENT_X + CONTENT_W, y, str(page_num))
 
-            # Linea punteada
             name_end = CONTENT_X + 8 + len(sistema) * 4.8
             page_start = CONTENT_X + CONTENT_W - 14
             if page_start > name_end + 8:
@@ -290,7 +270,7 @@ def draw_index(c, grupos, logo_path):
 
 
 # =============================================================================
-# PAGINA POR SISTEMA
+# PAGINA POR SISTEMA — imagen centrada grande, todo centrado
 # =============================================================================
 def draw_system_page(c, sistema, productos, page_num, base_dir, logo_path):
     w, h = PAGE_W, PAGE_H
@@ -303,7 +283,7 @@ def draw_system_page(c, sistema, productos, page_num, base_dir, logo_path):
     c.setFillColor(C.TEAL)
     c.rect(0, 0, SIDEBAR_W, h, fill=1, stroke=0)
 
-    # Texto vertical: categoria | subcategoria
+    # Texto vertical en banda
     cat = productos[0].get("cat", "")
     sub = productos[0].get("sub", "")
     cat_label = CAT_LABELS.get(cat, cat.upper())
@@ -325,7 +305,7 @@ def draw_system_page(c, sistema, productos, page_num, base_dir, logo_path):
     c.setFont("Helvetica-Bold", 9)
     c.drawCentredString(SIDEBAR_W / 2, 33, str(page_num))
 
-    # Encabezado: fondo teal claro
+    # Encabezado fondo teal claro
     header_y = h - HEADER_H
     c.setFillColor(C.TEAL_LIGHT)
     c.rect(SIDEBAR_W, header_y, w - SIDEBAR_W, HEADER_H, fill=1, stroke=0)
@@ -356,43 +336,47 @@ def draw_system_page(c, sistema, productos, page_num, base_dir, logo_path):
         c.setFont("Helvetica-Bold", 6.5)
         c.drawString(CONTENT_X + 6, header_y + 13, tag.upper())
 
-    # --- Contenido ---
-    y = header_y - 16
-    x = CONTENT_X
+    # --- Contenido centrado ---
+    x  = CONTENT_X
+    cx = CONTENT_X + CONTENT_W / 2   # centro horizontal del area de contenido
+    y  = header_y - 12
 
-    # Imagen del producto
+    # Imagen centrada, 2/5 de la altura util
+    area_util_h = header_y - FOOTER_H
+    IMG_H = int(area_util_h * 0.40)
+    IMG_W = CONTENT_W
+
     img_file = productos[0].get("img", "")
     img_path = os.path.join(base_dir, img_file) if img_file else ""
     img_drawn = False
-    IMG_W, IMG_H = 118, 88
 
     if img_path and os.path.exists(img_path):
         try:
             c.drawImage(img_path,
-                        x + CONTENT_W - IMG_W, y - IMG_H,
+                        x, y - IMG_H,
                         width=IMG_W, height=IMG_H,
                         preserveAspectRatio=True, mask="auto")
             img_drawn = True
         except Exception:
             pass
 
-    text_w = CONTENT_W - IMG_W - 12 if img_drawn else CONTENT_W
+    if img_drawn:
+        y = y - IMG_H - 10
 
-    # Descripcion
+    # Descripcion centrada
     desc = productos[0].get("desc", "")
-    desc_lines = wrap_text(desc, text_w, 8) if desc else []
-    desc_y = y
-    c.setFillColor(C.GRAY_600)
-    c.setFont("Helvetica", 8)
-    for line in desc_lines:
-        if desc_y < FOOTER_H + 10:
-            break
-        c.drawString(x, desc_y, line)
-        desc_y -= 11
+    if desc:
+        c.setFillColor(C.GRAY_600)
+        c.setFont("Helvetica", 8)
+        desc_lines = wrap_text(desc, CONTENT_W, 8)
+        for line in desc_lines:
+            if y < FOOTER_H + 10:
+                break
+            c.drawCentredString(cx, y, line)
+            y -= 11
+        y -= 4
 
-    y = min(desc_y, y - IMG_H - 4) if img_drawn else desc_y - 6
-
-    # Bloque ideal / ventaja
+    # Bloque ideal / ventaja centrado
     ideal = productos[0].get("ideal", "")
     dif   = productos[0].get("dif", "")
 
@@ -414,39 +398,38 @@ def draw_system_page(c, sistema, productos, page_num, base_dir, logo_path):
             if ideal_lines:
                 c.setFillColor(C.TEAL_DARK)
                 c.setFont("Helvetica-Bold", 7)
-                c.drawString(x + 8, by, "Ideal para:")
+                c.drawCentredString(cx, by, "Ideal para:")
                 by -= 11
                 c.setFillColor(C.GRAY_600)
                 c.setFont("Helvetica", 7.5)
                 for line in ideal_lines:
-                    c.drawString(x + 8, by, line)
+                    c.drawCentredString(cx, by, line)
                     by -= 11
 
             if dif_lines:
                 c.setFillColor(C.TEAL_DARK)
                 c.setFont("Helvetica-Bold", 7)
-                c.drawString(x + 8, by, "Ventaja:")
+                c.drawCentredString(cx, by, "Ventaja:")
                 by -= 11
                 c.setFillColor(C.GRAY_600)
                 c.setFont("Helvetica", 7.5)
                 for line in dif_lines:
-                    c.drawString(x + 8, by, line)
+                    c.drawCentredString(cx, by, line)
                     by -= 11
 
             y = y - block_h - 12
 
-    # --- Tabla de especificaciones ---
+    # --- Tabla de especificaciones centrada ---
     if y > FOOTER_H + 50:
         c.setFillColor(C.GRAY_800)
         c.setFont("Helvetica-Bold", 8)
-        c.drawString(x, y, "Especificaciones y variantes disponibles")
+        c.drawCentredString(cx, y, "Especificaciones y variantes disponibles")
         y -= 6
         c.setStrokeColor(C.GRAY_200)
         c.setLineWidth(0.5)
         c.line(x, y, x + CONTENT_W, y)
         y -= 10
 
-        # Construir filas
         table_data = [["Producto", "Campo", "Opciones"]]
         for p in productos:
             nombre = p.get("name", "")
@@ -467,7 +450,6 @@ def draw_system_page(c, sistema, productos, page_num, base_dir, logo_path):
             col_w = [CONTENT_W * 0.36, CONTENT_W * 0.18, CONTENT_W * 0.46]
             tbl = Table(table_data, colWidths=col_w, repeatRows=1)
             tbl.setStyle(TableStyle([
-                # Encabezado
                 ("BACKGROUND",     (0, 0), (-1, 0), C.TEAL_DARK),
                 ("TEXTCOLOR",      (0, 0), (-1, 0), C.WHITE),
                 ("FONTNAME",       (0, 0), (-1, 0), "Helvetica-Bold"),
@@ -476,7 +458,6 @@ def draw_system_page(c, sistema, productos, page_num, base_dir, logo_path):
                 ("TOPPADDING",     (0, 0), (-1, 0), 4),
                 ("BOTTOMPADDING",  (0, 0), (-1, 0), 4),
                 ("LINEBELOW",      (0, 0), (-1, 0), 1.2, C.TEAL),
-                # Filas
                 ("FONTNAME",       (0, 1), (-1, -1), "Helvetica"),
                 ("FONTSIZE",       (0, 1), (-1, -1), 7),
                 ("TEXTCOLOR",      (0, 1), (-1, -1), C.GRAY_800),
@@ -507,7 +488,6 @@ def draw_backcover(c, logo_path):
     c.setFillColor(C.TEAL_DARK)
     c.rect(0, 0, w, h, fill=1, stroke=0)
 
-    # Circulos decorativos
     c.saveState()
     c.setFillColor(C.ORANGE)
     c.setFillAlpha(0.20)
@@ -520,7 +500,6 @@ def draw_backcover(c, logo_path):
     c.circle(w * 0.12, h * 0.76, 70, fill=1, stroke=0)
     c.restoreState()
 
-    # Logo
     logo_w, logo_h = 220, 88
     if logo_path and os.path.exists(logo_path):
         c.drawImage(logo_path,
@@ -528,7 +507,6 @@ def draw_backcover(c, logo_path):
                     width=logo_w, height=logo_h,
                     preserveAspectRatio=True, mask="auto")
 
-    # Linea naranja
     c.setStrokeColor(C.ORANGE)
     c.setLineWidth(2.5)
     c.line(w * 0.25, h / 2 - 22, w * 0.75, h / 2 - 22)
@@ -545,7 +523,6 @@ def draw_backcover(c, logo_path):
     c.setFont("Helvetica", 9)
     c.drawCentredString(w / 2, h * 0.32, "ventasfantagdl@gmail.com")
 
-    # Barra inferior
     c.setFillColor(C.TEAL)
     c.rect(0, 0, w, 30, fill=1, stroke=0)
     c.setFillColor(C.WHITE)
