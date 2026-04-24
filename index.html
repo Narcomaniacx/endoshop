@@ -225,7 +225,12 @@
   <p style="margin-top:6px">Contacto: <a href="https://mail.google.com/mail/?view=cm&to=ventasfantagdl@gmail.com" target="_blank">ventasfantagdl@gmail.com</a></p>
 </footer>
 
-<script src="productos.js"></script>
+<script>
+let products = [];
+fetch('productos.json')
+  .then(r => r.json())
+  .then(data => { products = data; render(); });
+</script>
 
 <script>
 const EMAIL = 'ventasfantagdl@gmail.com';
@@ -485,7 +490,6 @@ document.querySelectorAll('.subfilter-btn').forEach(btn => {
 const searchInputEl = document.getElementById('searchInput');
 if (searchInputEl) {
   searchInputEl.addEventListener('input', () => {
-    render();
   });
 }
 
