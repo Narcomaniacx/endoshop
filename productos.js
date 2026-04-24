@@ -136,11 +136,11 @@ const products = [
 
   {
     id: 10, cat: 'limas', sub: 'conformacion',
-    name: 'AF Rotary Surtido',
+    name: 'AF Rotary — Secuencia (Surtida)',
     tag: 'Rotatoria', tagColor: '',
-    desc: 'Sistema rotatorio fabricado con aleación AF-Wire. Soporta 3,200 ciclos. Kit surtido con la secuencia clínica. Blister con 4 limas.',
-    ideal: 'Manejo en conductos curvos garantizando la preservación de la anatomía.',
-    dif: 'Aleación AF-Wire con tres niveles de flexibilidad.',
+    desc: 'Sistema rotatorio muy flexible. Aleación AF-Wire con tres niveles de flexibilidad martensítica (AF-L, AF-R, AF-H). Secuencia clásica: #17(12%), #19(2%), #18(5%), #25(4%), #25(6%), #35(4%). Blister con 6 limas.',
+    ideal: 'Manejo en conductos curvos garantizando la preservación de la anatomía original.',
+    dif: 'Tratamiento térmico especial y sección transversal triangular convexa. 500 RPM / Torque 2.5N.',
     campos: [
       { label: 'Longitud', opciones: ['21mm', '25mm', '31mm'] }
     ],
@@ -204,9 +204,33 @@ const products = [
 
   {
     id: 15, cat: 'limas', sub: 'conformacion',
+    name: 'AF Blue S One — Clásica',
+    tag: 'Rotatoria', tagColor: '',
+    desc: 'Sistema multitaper muy flexible. Aleación M-Wire + tratamiento térmico Fase R. Secuencia Clásica: #17(12%), #19(2%), #18(5%), #25(4%), #25(6%), #35(4%). Blister con 6 limas.',
+    ideal: 'Conductos obliterados, curvaturas leve a moderada. Instrumentación rotatoria con opción a reciprocante.',
+    dif: 'Alta flexibilidad con gran corte. 500 RPM / Torque 2.5N.',
+    campos: [
+      { label: 'Longitud', opciones: ['21mm', '25mm', '31mm'] }
+    ],
+    img: 'images/af-blue-rotary.jpg'
+  },
+  {
+    id: 16, cat: 'limas', sub: 'conformacion',
+    name: 'AF Blue S One — Corta',
+    tag: 'Rotatoria', tagColor: '',
+    desc: 'Sistema corto de 4 limas rotatorias. Aleación M-Wire + tratamiento Fase R. Secuencia: #15(6%), #20(4%), #25(4%), #30(4%). Blister con 4 limas.',
+    ideal: 'Conductos estrechos y curvos con enfoque mínimamente invasivo.',
+    dif: 'Preservación de tejido en curvaturas severas. 500 RPM / Torque 2.5N.',
+    campos: [
+      { label: 'Longitud', opciones: ['21mm', '25mm', '31mm'] }
+    ],
+    img: 'images/af-blue-s4.jpg'
+  },
+  {
+    id: 17, cat: 'limas', sub: 'conformacion',
     name: 'V-Taper Gold 2023 Surtido',
     tag: 'Multitaper', tagColor: 'blue',
-    desc: 'Sistema multitaper rotatorio con tratamiento térmico Gold para mayor flexibilidad. Secuencia completa: SX, S1, S2, F1, F2, F3. Blister con 6 limas.',
+    desc: 'Sistema multitaper rotatorio con tratamiento térmico Gold para mayor flexibilidad. Secuencia completa: SX, S1, S2, F1, F2, F3. Blister con 6 limas. Tratamiento térmico Gold avanzado para mayor flexibilidad.',
     ideal: 'Conductos amplios, tratamientos de conducto estándar. Curvas moderadas.',
     dif: 'Aleación CM-wire Fase H. Corte progresivo y seguro. 350 RPM / Torque 2N.',
     campos: [
@@ -215,10 +239,10 @@ const products = [
     img: 'images/v-taper-gold.jpg'
   },
   {
-    id: 16, cat: 'limas', sub: 'conformacion',
+    id: 18, cat: 'limas', sub: 'conformacion',
     name: 'V-Taper Gold 2023 - Repuestos',
     tag: 'Multitaper', tagColor: 'blue',
-    desc: 'Repuestos individuales del sistema V-Taper Gold 2023. Blister con 6 limas de la misma medida (SX a F3).',
+    desc: 'Repuestos individuales del sistema V-Taper Gold 2023. Blister con 6 limas de la misma medida (SX a F3). Tratamiento térmico Gold avanzado para mayor flexibilidad.',
     ideal: 'Reposición del instrumento de mayor desgaste en la clínica.',
     dif: 'Aleación CM-wire Fase H. 350 RPM / Torque 2N.',
     campos: [
@@ -228,7 +252,7 @@ const products = [
     img: 'images/v-taper-gold.jpg'
   },
   {
-    id: 17, cat: 'limas', sub: 'conformacion',
+    id: 19, cat: 'limas', sub: 'conformacion',
     name: 'V-Taper Blue Surtido',
     tag: 'Multitaper', tagColor: '',
     desc: 'Sistema multitaper. Secuencia: SX, S1, S2, F1, F2, F3. Blister con 6 limas. M-Wire + tratamiento Fase R.',
@@ -238,30 +262,6 @@ const products = [
       { label: 'Longitud', opciones: ['21mm', '25mm', '31mm'] }
     ],
     img: 'images/vtaper-blue.jpg'
-  },
-  {
-    id: 18, cat: 'limas', sub: 'conformacion',
-    name: 'AF Blue Rotary — Secuencia',
-    tag: 'Rotatoria', tagColor: '',
-    desc: 'Sistema rotatorio muy flexible. Aleación M-Wire + tratamiento térmico Fase R. Secuencia: #17(12%), #19(2%), #18(5%), #25(4%), #30(4%), #35(4%). Blister con 6 limas.',
-    ideal: 'Todo tipo de conductos. Sobresale en conductos estrechos con curvatura abrupta.',
-    dif: 'Extraordinaria resistencia a fatiga cíclica. 500 RPM / Torque 2.5N.',
-    campos: [
-      { label: 'Longitud', opciones: ['21mm', '25mm', '31mm'] }
-    ],
-    img: 'images/af-blue-rotary.jpg'
-  },
-  {
-    id: 19, cat: 'limas', sub: 'conformacion',
-    name: 'AF Blue S4',
-    tag: 'Rotatoria', tagColor: '',
-    desc: 'Sistema de conformación de 4 limas. Aleación M-Wire + tratamiento térmico Fase R. Secuencia: #15(6%), #20(4%), #25(4%), #30(4%). Blister con 4 limas.',
-    ideal: 'Enfoque mínimamente invasivo. Excelentes para endodoncia de molares con conductos muy curvos.',
-    dif: 'Alta conservación de la estructura radicular en tercios coronal y medio.',
-    campos: [
-      { label: 'Longitud', opciones: ['21mm', '25mm', '31mm'] }
-    ],
-    img: 'images/af-blue-s4.jpg'
   },
 
   // ══════════════════════════════════════════════════════════
@@ -292,21 +292,34 @@ const products = [
   },
   {
     id: 22, cat: 'limas', sub: 'conformacion',
+    name: 'AF F One — Repuestos',
+    tag: 'Rotatoria', tagColor: '',
+    desc: 'Repuestos de limas F-One individuales. Aleación M-Wire + tratamiento térmico Fase R. Blister con 5 limas.',
+    ideal: 'Reposición rápida.',
+    dif: 'Corte seguro gracias al diseño de faceta plana.',
+    campos: [
+      { label: 'Medida', opciones: ['#20/.04', '#25/.04', '#25/.06', '#35/.04', '#40/.04'] },
+      { label: 'Longitud', opciones: ['21mm', '25mm', '31mm'] }
+    ],
+    img: 'images/af-f-one.jpg'
+  },
+  {
+    id: 23, cat: 'limas', sub: 'conformacion',
     name: 'AF F One ECO — Eco',
     tag: 'Rotatoria', tagColor: '',
-    desc: 'Sistema ECO de 2 instrumentos. Secuencia: #18(5%), #30(4%). Blister con 3 piezas de cada uno. Total 6 limas.',
-    ideal: 'Casos vitales de complejidad media a baja. Instrumentación rápida y económica.',
-    dif: 'Aleación AFR-Wire. 500 RPM / Torque 2.5N.',
+    desc: 'Sistema simplificado de 2 instrumentos (glide + terminado). Aleación AFR-Wire. Secuencia: #18(5%), #30(4%). Caja con 6 limas por medida.',
+    ideal: 'Casos vitales de complejidad media a baja con instrumentación rápida.',
+    dif: 'Sistema de lima de glide y una de terminado. 500 RPM / Torque 2.5N.',
     campos: [],
     img: 'images/af-f-one-eco.jpg'
   },
   {
-    id: 23, cat: 'limas', sub: 'conformacion',
+    id: 24, cat: 'limas', sub: 'conformacion',
     name: 'AF F One ECO — Complete',
     tag: 'Rotatoria', tagColor: '',
-    desc: 'Sistema ECO de 3 instrumentos. Secuencia: #18(5%), #25(6%), #35(4%). Blister con 2 piezas de cada uno. Total 6 limas.',
-    ideal: 'Casos vitales o necróticos estándar. Balance entre economía y efectividad.',
-    dif: 'Aleación AFR-Wire. 500 RPM / Torque 2.5N.',
+    desc: 'Sistema simplificado de 3 instrumentos. Aleación AFR-Wire. Secuencia: #18(5%), #25(6%), #35(4%). Caja con 6 limas (2 de cada medida).',
+    ideal: 'Casos estándar con instrumentación simplificada y alta flexibilidad.',
+    dif: 'Balance entre control y economía de instrumentos. 500 RPM / Torque 2.5N.',
     campos: [],
     img: 'images/af-f-one-eco.jpg'
   },
@@ -316,7 +329,7 @@ const products = [
   // ══════════════════════════════════════════════════════════
 
   {
-    id: 24, cat: 'limas', sub: 'conformacion',
+    id: 25, cat: 'limas', sub: 'conformacion',
     name: 'AF Max',
     tag: 'Rotatoria', tagColor: '',
     desc: 'Instrumentos de grandes calibres para terminación. Aleación M-Wire + tratamiento Fase R. Blister con 4 limas de la misma medida o surtido.',
@@ -329,7 +342,7 @@ const products = [
     img: 'images/af-max.jpg'
   },
   {
-    id: 25, cat: 'limas', sub: 'conformacion',
+    id: 26, cat: 'limas', sub: 'conformacion',
     name: 'AF Retreatment',
     tag: 'Retratamiento', tagColor: 'red',
     desc: 'Limas específicas para desobturación. Aleación sin tratamiento térmico para mayor rigidez. Punta semiactiva. Secuencia: D1(#30/10% 16mm), D2(#25/8% 18mm), D3(#20/6% 22mm). Blister con 3 limas.',
@@ -343,6 +356,85 @@ const products = [
   // RECIPROCANTES
   // ══════════════════════════════════════════════════════════
 
+  {
+    id: 27, cat: 'limas', sub: 'reciprocante',
+    name: 'AF Blue R3 Surtido',
+    tag: 'Reciprocante', tagColor: '',
+    desc: 'Sistema reciprocante con aleación M-Wire + tratamiento Fase R. Altísima flexibilidad. Secuencia: R1(#20/.06), R2(#25/.06), R3(#40/.06). Blister con 3 limas.',
+    ideal: 'Casos severamente curvos que se prefieren tratar con movimiento recíproco.',
+    dif: 'Suma de resistencia recíproca con la flexibilidad extrema del tratamiento Blue.',
+    campos: [
+      { label: 'Longitud', opciones: ['21mm', '25mm'] }
+    ],
+    img: 'images/af-blue-r3.jpg'
+  },
+  {
+    id: 28, cat: 'limas', sub: 'reciprocante',
+    name: 'R One Mini — 6 pzas',
+    tag: 'Reciprocante', tagColor: '',
+    desc: 'Kit reciprocante con doble tratamiento térmico. Blister de 6 piezas: 3x #17(4%) + 3x #25(6%). Largo 25mm.',
+    ideal: 'Instrumentación reciprocante rápida y sencilla en curvaturas leve a moderada.',
+    dif: 'Preservación de dentina pericervical. Diámetro máximo 1.1mm. Sección S Itálica.',
+    campos: [],
+    img: 'images/r-one-mini.jpg'
+  },
+  {
+    id: 29, cat: 'limas', sub: 'reciprocante',
+    name: 'R One Mini — 3 pzas',
+    tag: 'Reciprocante', tagColor: '',
+    desc: 'Kit reciprocante. Secuencia Surtida: #17(4%), #20(6%), #25(6%). Largo 25mm.',
+    ideal: 'Secuencia completa en 3 instrumentos con movimiento recíproco.',
+    dif: 'Preservación de dentina pericervical. Tratamiento térmico dual.',
+    campos: [],
+    img: 'images/r-one-mini.jpg'
+  },
+  {
+    id: 30, cat: 'limas', sub: 'reciprocante',
+    name: 'AF Blue R3 — Repuestos',
+    tag: 'Reciprocante', tagColor: '',
+    desc: 'Limas reciprocantes individuales de la serie R3. Blister con 3 limas de la misma medida (#20, #25 o #40).',
+    ideal: 'Reemplazo del instrumento de mayor fatiga.',
+    dif: 'Gran flexibilidad recíproca.',
+    campos: [
+      { label: 'Medida', opciones: ['#20/.06', '#25/.06', '#40/.06'] },
+      { label: 'Longitud', opciones: ['21mm', '25mm'] }
+    ],
+    img: 'images/af-blue-r3.jpg'
+  },
+  {
+    id: 31, cat: 'limas', sub: 'pediatria',
+    name: 'AF Baby',
+    tag: 'Pediatría', tagColor: 'blue',
+    desc: 'Sistema de limas rotatorias para odontopediatría. Dientes deciduos. Aleación con tratamiento térmico. Kit con 4 limas: #17(8%), #20(4%), #25(4%), #30(4%). Largo 16mm.',
+    ideal: 'Pulpectomías en dientes infantiles.',
+    dif: 'Largo y conicidad especial para evitar desgaste excesivo en raíces deciduas y agilizar el tratamiento.',
+    campos: [],
+    img: 'images/af-baby.jpg'
+  },
+  {
+    id: 32, cat: 'limas', sub: 'conformacion',
+    name: 'AF Cl',
+    tag: 'Especial', tagColor: '',
+    desc: 'Lima rotatoria con cuello liso extralargo. Diseñada para bajar el hombro del instrumento 5mm. Medidas #20 y #25. Taper 4%. Caja con 4 piezas de 25mm.',
+    ideal: 'Visualización microscópica y minimización de contacto en el tercio coronal.',
+    dif: 'Cuello largo sin estrías. Disminuye la fricción coronal.',
+    campos: [
+      { label: 'Medida', opciones: ['#20/.04', '#25/.04'] }
+    ],
+    img: 'images/af-cl.jpg'
+  },
+  {
+    id: 33, cat: 'limas', sub: 'glide',
+    name: 'AF D-Path',
+    tag: 'Glide Path', tagColor: '',
+    desc: 'Lima de glide path mecanizada. Tamaño #19, taper 4%. Aleación de alta flexibilidad para minimizar estrés en paredes radiculares. Caja con 4 limas.',
+    ideal: 'Apertura de un pre-ensanchamiento (Glide Path) en conductos no tan constreñidos antes de rotatorios.',
+    dif: 'Taper mayor (0.04) que crea una vía de deslizamiento más holgada. 350 RPM / Torque 2N.',
+    campos: [
+      { label: 'Longitud', opciones: ['21mm', '25mm', '31mm'] }
+    ],
+    img: 'images/c-path.jpg'
+  },
   {
     id: 34, cat: 'limas', sub: 'reciprocante',
     name: 'Gold Reciprocante — Blisters Individuales',
@@ -367,62 +459,13 @@ const products = [
     ],
     img: 'images/gold-reciprocante.jpg'
   },
-  {
-    id: 28, cat: 'limas', sub: 'reciprocantes',
-    name: 'AF Blue R3 Surtido',
-    tag: 'Reciprocante', tagColor: '',
-    desc: 'Sistema reciprocante con aleación M-Wire + tratamiento Fase R. Altísima flexibilidad. Secuencia: R1(#20/.06), R2(#25/.06), R3(#40/.06). Blister con 3 limas.',
-    ideal: 'Casos severamente curvos que se prefieren tratar con movimiento recíproco.',
-    dif: 'Suma de resistencia recíproca con la flexibilidad extrema del tratamiento Blue.',
-    campos: [
-      { label: 'Longitud', opciones: ['21mm', '25mm'] }
-    ],
-    img: 'images/af-blue-r3.jpg'
-  },
-  {
-    id: 29, cat: 'limas', sub: 'reciprocantes',
-    name: 'R One Mini — 6 pzas',
-    tag: 'Reciprocante', tagColor: '',
-    desc: 'Kit reciprocante con doble tratamiento térmico. Blister de 6 piezas: 3x #17(4%) + 3x #25(6%). Largo 25mm.',
-    ideal: 'Instrumentación reciprocante rápida y sencilla en curvaturas leve a moderada.',
-    dif: 'Preservación de dentina pericervical. Diámetro máximo 1.1mm. Sección S Itálica.',
-    campos: [],
-    img: 'images/r-one-mini.jpg'
-  },
-  {
-    id: 30, cat: 'limas', sub: 'reciprocantes',
-    name: 'R One Mini — 3 pzas',
-    tag: 'Reciprocante', tagColor: '',
-    desc: 'Kit reciprocante. Secuencia Surtida: #17(4%), #20(6%), #25(6%). Largo 25mm.',
-    ideal: 'Secuencia completa en 3 instrumentos con movimiento recíproco.',
-    dif: 'Preservación de dentina pericervical. Tratamiento térmico dual.',
-    campos: [],
-    img: 'images/r-one-mini.jpg'
-  },
-
-  // ══════════════════════════════════════════════════════════
-  // PEDIATRÍA Y CUELLO LARGO
-  // ══════════════════════════════════════════════════════════
-
-  {
-    id: 31, cat: 'limas', sub: 'pediatria',
-    name: 'AF Cl',
-    tag: 'Especial', tagColor: '',
-    desc: 'Lima rotatoria con cuello liso extralargo. Diseñada para bajar el hombro del instrumento 5mm. Medidas #20 y #25. Taper 4%. Caja con 4 piezas de 25mm.',
-    ideal: 'Visualización microscópica y minimización de contacto en el tercio coronal.',
-    dif: 'Cuello largo sin estrías. Disminuye la fricción coronal.',
-    campos: [
-      { label: 'Medida', opciones: ['#20/.04', '#25/.04'] }
-    ],
-    img: 'images/af-cl.jpg'
-  },
 
   // ══════════════════════════════════════════════════════════
   // COMPLEMENTOS: GUTAPERCHA
   // ══════════════════════════════════════════════════════════
 
   {
-    id: 32, cat: 'complementos', sub: null,
+    id: 36, cat: 'complementos', sub: null,
     name: 'Gutapercha Convencional (Taper 02)',
     tag: 'Complemento', tagColor: '',
     desc: 'Puntas de gutapercha estandarizadas (ISO) con taper 02%. Caja con 120 piezas por medida.',
@@ -434,7 +477,7 @@ const products = [
     img: 'images/gutapercha.jpg'
   },
   {
-    id: 33, cat: 'complementos', sub: null,
+    id: 37, cat: 'complementos', sub: null,
     name: 'Gutapercha Taper 04',
     tag: 'Complemento', tagColor: '',
     desc: 'Gutapercha obtenida de látex natural. Biocompatible, radiopaca. Caja 60 piezas por medida. Taper 04.',
@@ -446,7 +489,7 @@ const products = [
     img: 'images/gutapercha.jpg'
   },
   {
-    id: 34, cat: 'complementos', sub: null,
+    id: 38, cat: 'complementos', sub: null,
     name: 'Gutapercha Taper 06',
     tag: 'Complemento', tagColor: '',
     desc: 'Gutapercha radiopaca, caja 60 piezas por medida. Taper 06.',
@@ -458,7 +501,7 @@ const products = [
     img: 'images/gutapercha.jpg'
   },
   {
-    id: 35, cat: 'complementos', sub: null,
+    id: 39, cat: 'complementos', sub: null,
     name: 'Gutapercha Serie F (F1, F2, F3)',
     tag: 'Complemento', tagColor: '',
     desc: 'Gutapercha calibrada específicamente para coincidir con las conicidades de los sistemas Gold, Blue, etc. Caja con 60 piezas.',
@@ -470,7 +513,7 @@ const products = [
     img: 'images/gutapercha.jpg'
   },
   {
-    id: 36, cat: 'complementos', sub: null,
+    id: 40, cat: 'complementos', sub: null,
     name: 'Gutapercha AF Max',
     tag: 'Complemento', tagColor: '',
     desc: 'Gutapercha calibrada para el sistema AF Max. Caja con 60 piezas.',
@@ -482,7 +525,7 @@ const products = [
     img: 'images/gutapercha.jpg'
   },
   {
-    id: 37, cat: 'complementos', sub: null,
+    id: 41, cat: 'complementos', sub: null,
     name: 'Gutapercha AF F-One',
     tag: 'Complemento', tagColor: '',
     desc: 'Gutapercha calibrada para el sistema AF F-One. Caja con 60 piezas.',
@@ -499,7 +542,7 @@ const products = [
   // ══════════════════════════════════════════════════════════
 
   {
-    id: 38, cat: 'complementos', sub: null,
+    id: 42, cat: 'complementos', sub: null,
     name: 'Puntas de Papel Convencional (Taper 02)',
     tag: 'Complemento', tagColor: '',
     desc: 'Puntas de papel absorbente estandarizadas (ISO) taper 02%. Caja con 200 piezas por medida.',
@@ -511,7 +554,7 @@ const products = [
     img: 'images/puntas-papel.jpg'
   },
   {
-    id: 39, cat: 'complementos', sub: null,
+    id: 43, cat: 'complementos', sub: null,
     name: 'Puntas de Papel Taper 04',
     tag: 'Complemento', tagColor: '',
     desc: 'Puntas de papel de alta absorción, sin aglutinantes químicos. Caja con 100 piezas por medida.',
@@ -523,7 +566,7 @@ const products = [
     img: 'images/puntas-papel.jpg'
   },
   {
-    id: 40, cat: 'complementos', sub: null,
+    id: 44, cat: 'complementos', sub: null,
     name: 'Puntas de Papel Taper 06',
     tag: 'Complemento', tagColor: '',
     desc: 'Puntas de papel de alta absorción. Caja con 100 piezas por medida.',
@@ -535,7 +578,7 @@ const products = [
     img: 'images/puntas-papel.jpg'
   },
   {
-    id: 41, cat: 'complementos', sub: null,
+    id: 45, cat: 'complementos', sub: null,
     name: 'Puntas de Papel Serie F (F1, F2, F3)',
     tag: 'Complemento', tagColor: '',
     desc: 'Puntas de papel calibradas para sistemas de cono tipo F (Gold, Blue). Caja con 100 piezas.',
@@ -547,7 +590,7 @@ const products = [
     img: 'images/puntas-papel.jpg'
   },
   {
-    id: 42, cat: 'complementos', sub: null,
+    id: 46, cat: 'complementos', sub: null,
     name: 'Puntas de Papel AF Max',
     tag: 'Complemento', tagColor: '',
     desc: 'Puntas de papel calibradas para sistema AF Max. Caja con 100 piezas.',
@@ -559,7 +602,7 @@ const products = [
     img: 'images/puntas-papel.jpg'
   },
   {
-    id: 43, cat: 'complementos', sub: null,
+    id: 47, cat: 'complementos', sub: null,
     name: 'Puntas de Papel AF F-One',
     tag: 'Complemento', tagColor: '',
     desc: 'Puntas de papel calibradas para sistema AF F-One. Caja con 100 piezas.',
@@ -576,7 +619,7 @@ const products = [
   // ══════════════════════════════════════════════════════════
 
   {
-    id: 44, cat: 'complementos', sub: null,
+    id: 48, cat: 'complementos', sub: null,
     name: 'GP-Plugger / Espaciador (G-1)',
     tag: 'Instrumental', tagColor: '',
     desc: 'Espaciador manual (Hand Plugger). Lado NiTi: #35/.03. Lado Acero: #70/.02. Color del cuerpo: NEGRO.',
@@ -586,7 +629,7 @@ const products = [
     img: 'images/gp-plugger.jpg'
   },
   {
-    id: 45, cat: 'complementos', sub: null,
+    id: 49, cat: 'complementos', sub: null,
     name: 'GP-Plugger / Espaciador (G-2)',
     tag: 'Instrumental', tagColor: '',
     desc: 'Espaciador manual (Hand Plugger). Lado NiTi: #40/.03. Lado Acero: #80/.02. Color del cuerpo: ROJO.',
@@ -596,7 +639,7 @@ const products = [
     img: 'images/gp-plugger.jpg'
   },
   {
-    id: 46, cat: 'complementos', sub: null,
+    id: 50, cat: 'complementos', sub: null,
     name: 'GP-Plugger / Espaciador (G-3)',
     tag: 'Instrumental', tagColor: '',
     desc: 'Espaciador manual (Hand Plugger). Lado NiTi: #50/.03. Lado Acero: #100/.02. Color del cuerpo: AZUL.',
@@ -606,7 +649,7 @@ const products = [
     img: 'images/gp-plugger.jpg'
   },
   {
-    id: 47, cat: 'complementos', sub: null,
+    id: 51, cat: 'complementos', sub: null,
     name: 'GP-Plugger / Espaciador (G-4)',
     tag: 'Instrumental', tagColor: '',
     desc: 'Espaciador manual (Hand Plugger). Lado NiTi: #60/.03. Lado Acero: #120/.02. Color del cuerpo: DORADO/BLANCO.',
@@ -616,7 +659,7 @@ const products = [
     img: 'images/gp-plugger.jpg'
   },
   {
-    id: 48, cat: 'complementos', sub: null,
+    id: 52, cat: 'complementos', sub: null,
     name: 'Agujas de Irrigación Laterales',
     tag: 'Complemento', tagColor: '',
     desc: 'Agujas estériles (30G) con doble ventilación lateral y punta cerrada/redondeada. Irrigación segura. Paquete con 50 piezas. Disponibles en 22mm y 27mm.',
@@ -628,7 +671,7 @@ const products = [
     img: 'images/agujas-irrigacion.jpg'
   },
   {
-    id: 49, cat: 'complementos', sub: null,
+    id: 53, cat: 'complementos', sub: null,
     name: 'C-Handle',
     tag: 'Instrumental', tagColor: '',
     desc: 'Mango ergonómico para limas manuales. Facilita la instrumentación bajo microscopio o en piezas posteriores. Conector integrado para localizador.',
@@ -674,7 +717,6 @@ const products = [
     campos: [],
     img: 'images/wispex.jpg'
   },
-
   // ══════════════════════════════════════════════════════════
   // NUEVOS PRODUCTOS 2025
   // ══════════════════════════════════════════════════════════
