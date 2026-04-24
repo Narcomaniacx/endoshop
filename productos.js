@@ -344,26 +344,25 @@ const products = [
   // ══════════════════════════════════════════════════════════
 
   {
-    id: 26, cat: 'limas', sub: 'reciprocantes',
-    name: 'Gold Reciprocante Surtida',
+    id: 34, cat: 'limas', sub: 'reciprocante',
+    name: 'Gold Reciprocante — Blisters Individuales',
+    tag: 'Reciprocante', tagColor: '',
+    desc: 'Sistema reciprocante muy flexible. Aleación M-Wire + tratamiento térmico Fase R. Disponible en blisters por medida: #20(6%), #25(6%), #30/#35(4%), #40(6%). Caja con 4 limas. Largo 25mm.',
+    ideal: 'Conformación rápida y efectiva con pocos instrumentos para complejidad leve a moderada.',
+    dif: 'Movimiento recíproco CCW 150° / CW 30°. Mayor resistencia a la fatiga. Sección cuadrangular en glide mejora resistencia torsional.',
+    campos: [
+      { label: 'Medida', opciones: ['#20 / 6% / 25mm', '#25 / 6% / 25mm', '#30+#35 / 4% / 25mm', '#40 / 6% / 25mm'] }
+    ],
+    img: 'images/gold-reciprocante.jpg'
+  },
+  {
+    id: 35, cat: 'limas', sub: 'reciprocante',
+    name: 'Gold Reciprocante — Secuencia Surtida',
     tag: 'Reciprocante', tagColor: '',
     desc: 'Blister surtido con la secuencia completa: #17(8%), #19(2%), #20(6%), #25(6%), #40(6%). Disponible en 21mm y 25mm. Blister con 5 limas.',
     ideal: 'Secuencia completa en un solo blister. Ideal para complejidad leve a moderada.',
     dif: 'Movimiento recíproco CCW 150° / CW 30°.',
     campos: [
-      { label: 'Longitud', opciones: ['21mm', '25mm'] }
-    ],
-    img: 'images/gold-reciprocante.jpg'
-  },
-  {
-    id: 27, cat: 'limas', sub: 'reciprocantes',
-    name: 'Gold Reciprocante — Repuestos',
-    tag: 'Reciprocante', tagColor: '',
-    desc: 'Repuestos por medida. Blister con 5 limas iguales. Disponible en #20/.06, #25/.06, #40/.06, #50/.06.',
-    ideal: 'Reposición de las limas de mayor uso en el sistema reciprocante.',
-    dif: 'Gran eficiencia de corte con movimiento recíproco.',
-    campos: [
-      { label: 'Medida', opciones: ['#20/.06', '#25/.06', '#40/.06', '#50/.06'] },
       { label: 'Longitud', opciones: ['21mm', '25mm'] }
     ],
     img: 'images/gold-reciprocante.jpg'
