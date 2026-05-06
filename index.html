@@ -593,7 +593,17 @@ function toggleChat() {
 function addMessage(role, text) {
   const el = document.createElement('div');
   el.className = `msg ${role}`;
-  el.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // 1. Convertir los dobles asteriscos en Negritas
+  let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
+  // 2. Convertir los asteriscos sueltos de las listas en un punto (viñeta)
+  formattedText = formattedText.replace(/\* /g, '• ');
+  
+  // 3. Convertir los "Enter" ocultos en saltos de línea HTML (<br>)
+  formattedText = formattedText.replace(/\n/g, '<br>');
+  
+  el.innerHTML = formattedText;
   document.getElementById('chat-messages').appendChild(el);
   document.getElementById('chat-messages').scrollTop = 99999;
 }
@@ -608,6 +618,15 @@ async function sendChat() {
   // Muestra el mensaje del doctor en la pantalla
   addMessage('user', text);
 
+  // --- NUEVO: INDICADOR DE "ESCRIBIENDO..." ---
+  const typingIndicator = document.createElement('div');
+  typingIndicator.id = 'typing-indicator';
+  typingIndicator.className = 'msg bot';
+  typingIndicator.innerHTML = '<em>Escribiendo...</em>';
+  document.getElementById('chat-messages').appendChild(typingIndicator);
+  document.getElementById('chat-messages').scrollTop = 99999;
+  // --------------------------------------------
+
   try {
     // Envía el mensaje a tu nuevo puente seguro en Vercel
     const response = await fetch('/api/chat', {
@@ -620,10 +639,18 @@ async function sendChat() {
 
     const data = await response.json();
     
+    // NUEVO: BORRA EL INDICADOR ANTES DE MOSTRAR LA RESPUESTA
+    const indicator = document.getElementById('typing-indicator');
+    if (indicator) indicator.remove();
+    
     // Muestra la respuesta inteligente de Gemini
     addMessage('bot', data.reply);
     
   } catch (error) {
+    // NUEVO: BORRA EL INDICADOR TAMBIÉN SI HAY ERROR
+    const indicator = document.getElementById('typing-indicator');
+    if (indicator) indicator.remove();
+
     addMessage('bot', 'Lo siento, tuve un problema de conexión. ¿Puedes intentarlo de nuevo?');
   }
 }
