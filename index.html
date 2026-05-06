@@ -168,6 +168,9 @@
     <input type="tel" id="cf-telefono" placeholder="Teléfono *" oninput="validateForm()" />
     <input type="text" id="cf-ciudad" placeholder="Ciudad *" oninput="validateForm()" />
     <input type="text" id="cf-cp" placeholder="Código Postal *" oninput="validateForm()" />
+    <p id="cp-aviso" style="display:none; color:#e05; font-size:0.75rem; margin-top:4px;">
+  Por ahora solo enviamos a Jalisco, Nayarit y Colima.
+</p>
   </div>
   <div class="cart-panel-footer">
     <button class="cart-send" id="cart-send" onclick="sendQuote()" disabled style="background:var(--gray-400);cursor:default;">Enviar cotización por correo</button>
@@ -320,6 +323,13 @@ function updateCart() {
       }).join('');
 }
 
+function cpValido(cp) {
+  const n = parseInt(cp, 10);
+  if (isNaN(n) || cp.length !== 5) return false;
+  return (n >= 44000 && n <= 49999) || // Jalisco
+         (n >= 63000 && n <= 63999) || // Nayarit
+         (n >= 28000 && n <= 28999);   // Colima
+}
 function validateForm() {
   const nombre = document.getElementById('cf-nombre').value.trim();
   const consultorio = document.getElementById('cf-consultorio').value.trim();
@@ -327,7 +337,10 @@ function validateForm() {
   const ciudad = document.getElementById('cf-ciudad').value.trim();
   const cp = document.getElementById('cf-cp').value.trim();
   const btn = document.getElementById('cart-send');
-  const valid = nombre && consultorio && telefono && ciudad && cp && cart.length > 0;
+  const cpOk = cpValido(cp);
+  const cpMsg = document.getElementById('cp-aviso');
+  if (cpMsg) cpMsg.style.display = cp.length === 5 && !cpOk ? 'block' : 'none';
+  const valid = nombre && consultorio && telefono && ciudad && cpOk && cart.length > 0;
   btn.disabled = !valid;
   btn.style.background = valid ? 'var(--teal)' : 'var(--gray-400)';
   btn.style.cursor = valid ? 'pointer' : 'default';
