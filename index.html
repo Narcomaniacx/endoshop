@@ -593,7 +593,7 @@ function toggleChat() {
 function addMessage(role, text) {
   const el = document.createElement('div');
   el.className = `msg ${role}`;
-  el.textContent = text;
+  el.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
   document.getElementById('chat-messages').appendChild(el);
   document.getElementById('chat-messages').scrollTop = 99999;
 }
