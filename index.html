@@ -559,59 +559,33 @@ render();
 </div>
 
 <script>
-const GEMINI_API_KEY = 'AIzaSyDQW9k80lWLzQwqOt_0x4bGOHgUvpTapVg';
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${GEMINI_API_KEY}`;
+const RESPUESTAS = [
+  { keys: ['lima','limas','sistema','recomendar','recomiendan','curved','curvo','curva','canal'], resp: 'Para canales curvos recomendamos el sistema **Rising** o el **V-Taper Gold**, ambos con tecnología AF Wire de alta flexibilidad. Si buscas mínima invasión, el **Harmony** o el **R One Mini Kit** son excelentes opciones. ¿Quieres más detalles de alguno?' },
+  { keys: ['reciprocante','reciproc'], resp: 'Manejamos el **R One Mini Kit**, sistema reciprocante mínimamente invasivo de 5 piezas con tecnología AF-L y AF-R Wire. Diseñado para reducir la fractura vertical radicular.' },
+  { keys: ['calcificado','calcificados','calcific'], resp: 'Para canales calcificados recomendamos el sistema **Harmony**, con tecnología AF-L Wire y diseño de sección variable patentado. Su secuencia simple facilita el trabajo en estos casos.' },
+  { keys: ['retratamiento','retrat'], resp: 'Para retratamiento contamos con el **AF CL**, una lima especializada para bypass de escalones con sección transversal diamante y tecnología AF-R Wire.' },
+  { keys: ['baby','niño','niños','primari','pediatr','deciduo'], resp: 'Para dientes primarios tenemos las **AF Baby Rotary**, diseñadas especialmente para dientes deciduos. Longitud de 16mm, tecnología AF-H Wire y alta resistencia a fatiga cíclica.' },
+  { keys: ['motor','endo motor','endomotor','iroot'], resp: 'Tenemos dos opciones: **iRoot Ultra (SCM-018)** — motor brushless inalámbrico hasta 2500 RPM, y el **iRoot Pro** — motor con localizador de ápice integrado. Ambos inalámbricos y con múltiples modos de trabajo.' },
+  { keys: ['apex','localizador','ápice'], resp: 'Contamos con el **Wispex**, localizador de ápice independiente con tecnología dual-frecuencia, alta precisión en canales húmedos y secos. También el **iRoot Pro** integra motor y localizador en uno.' },
+  { keys: ['ultrasonido','ultrasónico','activacion','activación'], resp: 'El **Actor I Pro** es nuestro dispositivo de activación ultrasónica endodóntica. Tecnología mute ultrasónica, 2 modos de potencia, carga inalámbrica y batería de 1600 mAh.' },
+  { keys: ['obturacion','obturación','gutapercha','gutta','efiller','eheater'], resp: 'Para obturación tenemos el **eHeater** (Down Pack, alcanza 200°C en 2 segundos) y el **eFiller** (Backfill, calentamiento en 14 segundos, temperatura ajustable 100-230°C).' },
+  { keys: ['microscopio','microscop'], resp: 'El **MCS 3000A** es nuestro microscopio quirúrgico dental con zoom 3.2x-20x, cámara HD 1920x1080 y recubrimiento antibacteriano de iones de plata nano.' },
+  { keys: ['envio','envío','entrega','envian','envían','mandan'], resp: 'Actualmente distribuimos en **Jalisco, Nayarit y Colima**. Para tiempos y condiciones de entrega específicas, escríbenos a ventasfantagdl@gmail.com.' },
+  { keys: ['cotiza','cotización','precio','precios','costo','cuanto','cuánto'], resp: 'Puedes armar tu cotización directamente en el sitio usando el carrito 🛒, o escribirnos a **ventasfantagdl@gmail.com**. Te respondemos a la brevedad.' },
+  { keys: ['factura','facturación','cfdi'], resp: 'Sí contamos con facturación. Para más detalles escríbenos a ventasfantagdl@gmail.com.' },
+  { keys: ['cofepris','registro','permiso','legal'], resp: 'Contamos con **COFEPRIS**, por lo que todos nuestros productos cumplen con la regulación sanitaria vigente en México.' },
+  { keys: ['pago','pagos','transferencia','efectivo','deposito','depósito'], resp: 'Para información sobre formas de pago contáctanos a **ventasfantagdl@gmail.com** y con gusto te orientamos.' },
+  { keys: ['hola','buenas','buenos','hi','hey'], resp: '¡Hola! ¿En qué puedo ayudarte? Puedo orientarte sobre nuestros sistemas de limas, equipos o el proceso de cotización.' },
+  { keys: ['gracias','thank'], resp: '¡Con gusto! Si tienes más preguntas aquí estamos. También puedes escribirnos a ventasfantagdl@gmail.com.' },
+];
 
-const SYSTEM_PROMPT = `Eres el asistente virtual de EndoShop, distribuidora de instrumental endodóntico Fanta Dental en Guadalajara, Jalisco. Atiendes a endodoncistas y dentistas de Jalisco, Nayarit y Colima. Responde siempre en español, de forma concisa y profesional.
-
-PRODUCTOS QUE MANEJAMOS:
-
-LIMAS ROTATORIAS: 
-- Rising: Lima rotatoria con conicidad variable y sección transversal variable. Maneja el 95% de los casos. Disponible en kits (RR+R1+R2+R3+R4) y piezas individuales en 21, 25 y 31mm.
-- Harmony: Kit mínimamente invasivo con tecnología AF-L Wire. 3 limas (#17/04, #22/04, #30/04). Ideal para canales calcificados. Disponible en 21, 25 y 31mm.
-- R One Mini Kit: Kit reciprocante mínimamente invasivo (5 pzas). Tecnología AF-L y AF-R. Reduce fractura vertical radicular. Disponible en 21, 25 y 31mm.
-- AF F ONE: Sistema de lima única con tecnología AF-R Wire. Diseño flat-side patentado. Alta resistencia a fatiga cíclica. 6 variantes (F1-F6) en conicidades 04 y 06.
-- AF CL: Lima para bypass de escalones. Sección diamante. AF-R Wire. 6 tamaños del 10/06 al 30/09.
-- AF Baby Rotary: Limas para dientes primarios. AF-H Wire. 16mm. Tamaños 20-30 en conicidades 04 y 06.
-- V-Taper Gold: Sistema de 6 limas (SX+S1+S2+F1+F2+F3). AF-R para conformación, AF-H para acabado. Para canales curvos.
-- V-Taper Gold 2023: Versión actualizada con tecnología AF-L Wire. Ideal para canales grandes.
-
-LIMAS MANUALES:
-- Natro Hand Files: K File, H File y C File en acero inoxidable. Tamaños #6 al #80. Longitudes 21, 25 y 31mm.
-
-EQUIPOS:
-- Fanta iRoot Ultra (SCM-018): Motor endodóntico inalámbrico brushless. 2500 RPM máx, torque 0.4-4 N.cm. Carga inalámbrica. 4 modos de trabajo. 10 programas de memoria.
-- Fanta iRoot Pro: Motor endodóntico con localizador de ápice integrado. Inalámbrico, portátil. 4 modos. Compatible con la mayoría de limas NiTi del mercado.
-- Actor I Pro: Dispositivo de activación ultrasónica. 2 modos de potencia. Carga inalámbrica. Batería 1600 mAh.
-- eHeater: Sistema de obturación Down Pack. Alcanza 200°C en 2 segundos. Batería 2600 mAh.
-- eFiller: Sistema de obturación Backfill. Temperatura ajustable 100-230°C. Calentamiento en 14 segundos. Batería 2600 mAh.
-- Wispex: Localizador de ápice independiente. Tecnología dual-frecuencia. Alta precisión en canales húmedos y secos.
-- MCS 3000A: Microscopio quirúrgico dental. Zoom 3.2x a 20x. Cámara HD 1920x1080. Recubrimiento antibacteriano de iones de plata nano.
-
-ACCESORIOS:
-- Agujas de irrigación con doble ventana lateral.
-- Gutta Percha en múltiples tamaños y conicidades.
-- Paper Points en múltiples tamaños.
-- C-Handle: Mango ergonómico compatible con limas manuales y localizador de ápice.
-- Fiber Post cónico translúcido.
-- Dientes de entrenamiento 3D para práctica clínica.
-
-INFORMACIÓN DE VENTAS:
-- Zona de distribución: Jalisco, Nayarit y Colima únicamente.
-- Para cotizaciones: usar el carrito de cotización en el sitio web o escribir a ventasfantagdl@gmail.com
-- Contamos con COFEPRIS.
-- Para preguntas sobre precios, tiempos de entrega y formas de pago, invitar a contactar por correo o usar el formulario de cotización.
-
-Si no sabes algo específico sobre precios o disponibilidad, indica que pueden contactar a ventasfantagdl@gmail.com para información detallada.`;
-
-let chatHistory = [];
 let chatOpen = false;
 
 function toggleChat() {
   chatOpen = !chatOpen;
   document.getElementById('chat-box').classList.toggle('visible', chatOpen);
-  if (chatOpen && chatHistory.length === 0) {
-    addMessage('bot', '¡Hola! Soy el asistente de EndoShop. Puedo ayudarte con información sobre nuestros sistemas de limas Fanta Dental, equipos y proceso de cotización. ¿En qué te puedo orientar?');
+  if (chatOpen && document.getElementById('chat-messages').children.length === 0) {
+    addMessage('bot', '¡Hola! Soy el asistente de EndoShop. Puedo ayudarte con información sobre nuestros sistemas de limas Fanta Dental, equipos y cotizaciones. ¿En qué te puedo orientar?');
   }
   if (chatOpen) setTimeout(() => document.getElementById('chat-input').focus(), 100);
 }
@@ -622,52 +596,20 @@ function addMessage(role, text) {
   el.textContent = text;
   document.getElementById('chat-messages').appendChild(el);
   document.getElementById('chat-messages').scrollTop = 99999;
-  return el;
 }
 
-function addTyping() {
-  const el = document.createElement('div');
-  el.className = 'msg typing';
-  el.id = 'typing-indicator';
-  el.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
-  document.getElementById('chat-messages').appendChild(el);
-  document.getElementById('chat-messages').scrollTop = 99999;
-}
-
-function removeTyping() {
-  const el = document.getElementById('typing-indicator');
-  if (el) el.remove();
-}
-
-async function sendChat() {
+function sendChat() {
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
   if (!text) return;
   input.value = '';
   addMessage('user', text);
-  chatHistory.push({ role: 'user', parts: [{ text }] });
-  addTyping();
-
-  try {
-    const res = await fetch(GEMINI_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-        contents: chatHistory,
-        generationConfig: { maxOutputTokens: 400, temperature: 0.7 }
-      })
-    });
-    const data = await res.json();
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Lo siento, hubo un error. Por favor escríbenos a ventasfantagdl@gmail.com';
-    removeTyping();
+  setTimeout(() => {
+    const lower = text.toLowerCase();
+    const match = RESPUESTAS.find(r => r.keys.some(k => lower.includes(k)));
+    const reply = match ? match.resp : 'Para esa consulta te recomiendo contactarnos directamente a ventasfantagdl@gmail.com o usar el carrito de cotización en el sitio. ¡Con gusto te atendemos!';
     addMessage('bot', reply);
-    chatHistory.push({ role: 'model', parts: [{ text: reply }] });
-  } catch(e) {
-    removeTyping();
-    addMessage('bot', 'Lo siento, hubo un problema de conexión. Escríbenos a ventasfantagdl@gmail.com');
-  }
+  }, 400);
 }
-</script>
 </body>
 </html>
