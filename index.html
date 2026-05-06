@@ -608,6 +608,9 @@ function addMessage(role, text) {
   document.getElementById('chat-messages').scrollTop = 99999;
 }
 
+// NUEVO: Variable para guardar la memoria del chat mientras la página esté abierta
+let historialChat = [];
+
 async function sendChat() {
   const input = document.getElementById('chat-input');
   const text = input.value.trim();
@@ -617,40 +620,47 @@ async function sendChat() {
   
   // Muestra el mensaje del doctor en la pantalla
   addMessage('user', text);
+  
+  // GUARDAMOS EL MENSAJE EN LA MEMORIA (historial)
+  historialChat.push({ role: 'user', parts: [{ text: text }] });
 
-  // --- NUEVO: INDICADOR DE "ESCRIBIENDO..." ---
+  // Indicador de "Escribiendo..."
   const typingIndicator = document.createElement('div');
   typingIndicator.id = 'typing-indicator';
   typingIndicator.className = 'msg bot';
   typingIndicator.innerHTML = '<em>Escribiendo...</em>';
   document.getElementById('chat-messages').appendChild(typingIndicator);
   document.getElementById('chat-messages').scrollTop = 99999;
-  // --------------------------------------------
 
   try {
-    // Envía el mensaje a tu nuevo puente seguro en Vercel
+    // AHORA ENVIAMOS TODA LA HISTORIA (history) A VERCEL
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text })
+      body: JSON.stringify({ history: historialChat })
     });
 
     if (!response.ok) throw new Error('Error en la red');
 
     const data = await response.json();
     
-    // NUEVO: BORRA EL INDICADOR ANTES DE MOSTRAR LA RESPUESTA
+    // Borra el indicador de escribiendo
     const indicator = document.getElementById('typing-indicator');
     if (indicator) indicator.remove();
     
-    // Muestra la respuesta inteligente de Gemini
+    // GUARDAMOS LA RESPUESTA DE LA IA EN LA MEMORIA
+    historialChat.push({ role: 'model', parts: [{ text: data.reply }] });
+
+    // Muestra la respuesta en pantalla
     addMessage('bot', data.reply);
     
   } catch (error) {
-    // NUEVO: BORRA EL INDICADOR TAMBIÉN SI HAY ERROR
     const indicator = document.getElementById('typing-indicator');
     if (indicator) indicator.remove();
-
+    
+    // Si hubo error, borramos el último mensaje de la memoria para no arruinar el historial
+    historialChat.pop(); 
+    
     addMessage('bot', 'Lo siento, tuve un problema de conexión. ¿Puedes intentarlo de nuevo?');
   }
 }
