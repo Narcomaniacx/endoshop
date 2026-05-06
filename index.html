@@ -509,5 +509,165 @@ if (searchInputEl) {
 // Inicializar la vista
 render();
 </script>
+<!-- ── CHATBOT ── -->
+<style>
+  .chat-btn { position: fixed; bottom: 28px; left: 28px; width: 52px; height: 52px; border-radius: 50%; background: var(--teal); border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(26,155,175,0.4); z-index: 300; display: flex; align-items: center; justify-content: center; transition: transform 0.2s, background 0.2s; }
+  .chat-btn:hover { background: var(--teal-dark); transform: scale(1.08); }
+  .chat-btn svg { width: 24px; height: 24px; fill: white; }
+  .chat-box { position: fixed; bottom: 90px; left: 28px; width: 320px; max-height: 480px; background: var(--white); border-radius: var(--radius); border: 1px solid var(--gray-200); box-shadow: 0 12px 40px rgba(0,0,0,0.12); z-index: 300; display: none; flex-direction: column; overflow: hidden; }
+  .chat-box.visible { display: flex; }
+  .chat-header { padding: 14px 18px; background: var(--teal); color: white; font-family: var(--font-body); font-weight: 600; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; }
+  .chat-header span { opacity: 0.85; font-size: 0.75rem; font-weight: 400; }
+  .chat-header button { background: none; border: none; color: white; font-size: 1.1rem; cursor: pointer; line-height: 1; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .msg { max-width: 85%; padding: 9px 13px; border-radius: 12px; font-size: 0.83rem; line-height: 1.55; font-family: var(--font-body); }
+  .msg.bot { background: var(--gray-100); color: var(--gray-800); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .msg.user { background: var(--teal); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .msg.typing { background: var(--gray-100); align-self: flex-start; padding: 12px 16px; }
+  .typing-dots { display: flex; gap: 4px; }
+  .typing-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--gray-400); animation: bounce 1.2s infinite; }
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+  .chat-input-row { padding: 10px 12px; border-top: 1px solid var(--gray-200); display: flex; gap: 8px; }
+  .chat-input-row input { flex: 1; padding: 8px 12px; border: 1.5px solid var(--gray-200); border-radius: 20px; font-family: var(--font-body); font-size: 0.83rem; outline: none; transition: border-color 0.2s; }
+  .chat-input-row input:focus { border-color: var(--teal); }
+  .chat-input-row button { width: 34px; height: 34px; border-radius: 50%; background: var(--teal); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; flex-shrink: 0; }
+  .chat-input-row button:hover { background: var(--teal-dark); }
+  .chat-input-row button svg { width: 16px; height: 16px; fill: white; }
+</style>
+
+<button class="chat-btn" onclick="toggleChat()" title="Asistente EndoShop">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+</button>
+
+<div class="chat-box" id="chat-box">
+  <div class="chat-header">
+    <div>
+      <div>Asistente EndoShop</div>
+      <span>Fanta Dental · Instrumental endodóntico</span>
+    </div>
+    <button onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter') sendChat()" />
+    <button onclick="sendChat()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+const GEMINI_API_KEY = 'AIzaSyDQW9k80lWLzQwqOt_0x4bGOHgUvpTapVg';
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+const SYSTEM_PROMPT = `Eres el asistente virtual de EndoShop, distribuidora de instrumental endodóntico Fanta Dental en Guadalajara, Jalisco. Atiendes a endodoncistas y dentistas de Jalisco, Nayarit y Colima. Responde siempre en español, de forma concisa y profesional.
+
+PRODUCTOS QUE MANEJAMOS:
+
+LIMAS ROTATORIAS:
+- Rising: Lima rotatoria con conicidad variable y sección transversal variable. Maneja el 95% de los casos. Disponible en kits (RR+R1+R2+R3+R4) y piezas individuales en 21, 25 y 31mm.
+- Harmony: Kit mínimamente invasivo con tecnología AF-L Wire. 3 limas (#17/04, #22/04, #30/04). Ideal para canales calcificados. Disponible en 21, 25 y 31mm.
+- R One Mini Kit: Kit reciprocante mínimamente invasivo (5 pzas). Tecnología AF-L y AF-R. Reduce fractura vertical radicular. Disponible en 21, 25 y 31mm.
+- AF F ONE: Sistema de lima única con tecnología AF-R Wire. Diseño flat-side patentado. Alta resistencia a fatiga cíclica. 6 variantes (F1-F6) en conicidades 04 y 06.
+- AF CL: Lima para bypass de escalones. Sección diamante. AF-R Wire. 6 tamaños del 10/06 al 30/09.
+- AF Baby Rotary: Limas para dientes primarios. AF-H Wire. 16mm. Tamaños 20-30 en conicidades 04 y 06.
+- V-Taper Gold: Sistema de 6 limas (SX+S1+S2+F1+F2+F3). AF-R para conformación, AF-H para acabado. Para canales curvos.
+- V-Taper Gold 2023: Versión actualizada con tecnología AF-L Wire. Ideal para canales grandes.
+
+LIMAS MANUALES:
+- Natro Hand Files: K File, H File y C File en acero inoxidable. Tamaños #6 al #80. Longitudes 21, 25 y 31mm.
+
+EQUIPOS:
+- Fanta iRoot Ultra (SCM-018): Motor endodóntico inalámbrico brushless. 2500 RPM máx, torque 0.4-4 N.cm. Carga inalámbrica. 4 modos de trabajo. 10 programas de memoria.
+- Fanta iRoot Pro: Motor endodóntico con localizador de ápice integrado. Inalámbrico, portátil. 4 modos. Compatible con la mayoría de limas NiTi del mercado.
+- Actor I Pro: Dispositivo de activación ultrasónica. 2 modos de potencia. Carga inalámbrica. Batería 1600 mAh.
+- eHeater: Sistema de obturación Down Pack. Alcanza 200°C en 2 segundos. Batería 2600 mAh.
+- eFiller: Sistema de obturación Backfill. Temperatura ajustable 100-230°C. Calentamiento en 14 segundos. Batería 2600 mAh.
+- Wispex: Localizador de ápice independiente. Tecnología dual-frecuencia. Alta precisión en canales húmedos y secos.
+- MCS 3000A: Microscopio quirúrgico dental. Zoom 3.2x a 20x. Cámara HD 1920x1080. Recubrimiento antibacteriano de iones de plata nano.
+
+ACCESORIOS:
+- Agujas de irrigación con doble ventana lateral.
+- Gutta Percha en múltiples tamaños y conicidades.
+- Paper Points en múltiples tamaños.
+- C-Handle: Mango ergonómico compatible con limas manuales y localizador de ápice.
+- Fiber Post cónico translúcido.
+- Dientes de entrenamiento 3D para práctica clínica.
+
+INFORMACIÓN DE VENTAS:
+- Zona de distribución: Jalisco, Nayarit y Colima únicamente.
+- Para cotizaciones: usar el carrito de cotización en el sitio web o escribir a ventasfantagdl@gmail.com
+- Contamos con COFEPRIS.
+- Para preguntas sobre precios, tiempos de entrega y formas de pago, invitar a contactar por correo o usar el formulario de cotización.
+
+Si no sabes algo específico sobre precios o disponibilidad, indica que pueden contactar a ventasfantagdl@gmail.com para información detallada.`;
+
+let chatHistory = [];
+let chatOpen = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chat-box').classList.toggle('visible', chatOpen);
+  if (chatOpen && chatHistory.length === 0) {
+    addMessage('bot', '¡Hola! Soy el asistente de EndoShop. Puedo ayudarte con información sobre nuestros sistemas de limas Fanta Dental, equipos y proceso de cotización. ¿En qué te puedo orientar?');
+  }
+  if (chatOpen) setTimeout(() => document.getElementById('chat-input').focus(), 100);
+}
+
+function addMessage(role, text) {
+  const el = document.createElement('div');
+  el.className = `msg ${role}`;
+  el.textContent = text;
+  document.getElementById('chat-messages').appendChild(el);
+  document.getElementById('chat-messages').scrollTop = 99999;
+  return el;
+}
+
+function addTyping() {
+  const el = document.createElement('div');
+  el.className = 'msg typing';
+  el.id = 'typing-indicator';
+  el.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+  document.getElementById('chat-messages').appendChild(el);
+  document.getElementById('chat-messages').scrollTop = 99999;
+}
+
+function removeTyping() {
+  const el = document.getElementById('typing-indicator');
+  if (el) el.remove();
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addMessage('user', text);
+  chatHistory.push({ role: 'user', parts: [{ text }] });
+  addTyping();
+
+  try {
+    const res = await fetch(GEMINI_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        contents: chatHistory,
+        generationConfig: { maxOutputTokens: 400, temperature: 0.7 }
+      })
+    });
+    const data = await res.json();
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Lo siento, hubo un error. Por favor escríbenos a ventasfantagdl@gmail.com';
+    removeTyping();
+    addMessage('bot', reply);
+    chatHistory.push({ role: 'model', parts: [{ text: reply }] });
+  } catch(e) {
+    removeTyping();
+    addMessage('bot', 'Lo siento, hubo un problema de conexión. Escríbenos a ventasfantagdl@gmail.com');
+  }
+}
+</script>
 </body>
 </html>
