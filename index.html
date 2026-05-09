@@ -470,7 +470,24 @@ function render() {
     </div>`;
     return;
   }
-  grid.innerHTML = filtered.map((p, i) => renderCard(p, i * 40)).join('');
+  currentFiltered = filtered;
+  currentPage = 0;
+  grid.innerHTML = '';
+  loadMore();
+}
+
+let currentFiltered = [];
+let currentPage = 0;
+const PAGE_SIZE = 9;
+
+function loadMore() {
+  const grid = document.getElementById('grid');
+  const start = currentPage * PAGE_SIZE;
+  const slice = currentFiltered.slice(start, start + PAGE_SIZE);
+  slice.forEach((p, i) => {
+    grid.insertAdjacentHTML('beforeend', renderCard(p, (start + i) * 40));
+  });
+  currentPage++;
 }
 
 document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -503,9 +520,22 @@ document.querySelectorAll('.subfilter-btn').forEach(btn => {
 const searchInputEl = document.getElementById('searchInput');
 if (searchInputEl) {
   searchInputEl.addEventListener('input', () => {
-  render();
-});
+    render();
+  });
 }
+
+// Infinite scroll
+const sentinel = document.createElement('div');
+sentinel.id = 'scroll-sentinel';
+document.getElementById('grid').insertAdjacentElement('afterend', sentinel);
+
+const observer = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting && currentPage * PAGE_SIZE < currentFiltered.length) {
+    loadMore();
+  }
+}, { rootMargin: '200px' });
+
+observer.observe(sentinel);
 
 // Inicializar la vista
 render();
