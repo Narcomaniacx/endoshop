@@ -19,7 +19,9 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.units import mm
 from reportlab.pdfgen import canvas as rl_canvas
-from reportlab.platypus import Table, TableStyle
+from reportlab.platypus import Table, TableStyle, Paragraph
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.enums import TA_LEFT, TA_CENTER
 
 
 # =============================================================================
@@ -430,7 +432,16 @@ def draw_system_page(c, sistema, productos, page_num, base_dir, logo_path):
         c.line(x, y, x + CONTENT_W, y)
         y -= 10
 
-        table_data = [["Producto", "Campo", "Opciones"]]
+        st_normal = ParagraphStyle('normal', fontName='Helvetica', fontSize=7,
+                                   textColor=C.GRAY_800, leading=10, alignment=TA_LEFT)
+        st_center = ParagraphStyle('center', fontName='Helvetica', fontSize=7,
+                                   textColor=C.GRAY_800, leading=10, alignment=TA_CENTER)
+        st_header = ParagraphStyle('header', fontName='Helvetica-Bold', fontSize=7,
+                                   textColor=colors.white, leading=10, alignment=TA_CENTER)
+
+        table_data = [[Paragraph("Producto", st_header),
+                       Paragraph("Campo", st_header),
+                       Paragraph("Opciones", st_header)]]
         for p in productos:
             nombre = p.get("name", "")
             campos = p.get("campos", [])
@@ -441,10 +452,18 @@ def draw_system_page(c, sistema, productos, page_num, base_dir, logo_path):
                     opciones = campo.get("opciones", [])
                     ops_str  = "  /  ".join(str(o) for o in opciones)
                     row_name = nombre if first else ""
-                    table_data.append([row_name, label, ops_str])
+                    table_data.append([
+                        Paragraph(row_name, st_normal),
+                        Paragraph(label, st_center),
+                        Paragraph(ops_str, st_normal)
+                    ])
                     first = False
             else:
-                table_data.append([nombre, "—", "Unica presentacion"])
+                table_data.append([
+                    Paragraph(nombre, st_normal),
+                    Paragraph("—", st_center),
+                    Paragraph("Unica presentacion", st_normal)
+                ])
 
         if len(table_data) > 1:
             col_w = [CONTENT_W * 0.36, CONTENT_W * 0.18, CONTENT_W * 0.46]
