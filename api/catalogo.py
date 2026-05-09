@@ -469,6 +469,7 @@ def draw_system_page(c, sistema, productos, page_num, base_dir, logo_path):
                 ("LEFTPADDING",    (0, 0), (-1, -1), 6),
                 ("ROWBACKGROUNDS", (0, 1), (-1, -1), [C.WHITE, C.TEAL_LIGHT]),
                 ("GRID",           (0, 0), (-1, -1), 0.4, C.GRAY_200),
+("WORDWRAP",       (0, 0), (-1, -1), True),
             ]))
 
             tbl_w, tbl_h = tbl.wrapOn(c, CONTENT_W, y - FOOTER_H - 10)
