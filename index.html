@@ -503,7 +503,8 @@ document.querySelectorAll('.subfilter-btn').forEach(btn => {
 const searchInputEl = document.getElementById('searchInput');
 if (searchInputEl) {
   searchInputEl.addEventListener('input', () => {
-  });
+  render();
+});
 }
 
 // Inicializar la vista
